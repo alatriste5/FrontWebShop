@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="col-md-5">
+    <p>Admin Product List</p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <app-allproduct-list-item
+      *ngFor="let prodEl of tempAllProductDtoList"
+      [actualAllProductDto]="prodEl"
+    >
+    </app-allproduct-list-item>
+  </div>
+</div>

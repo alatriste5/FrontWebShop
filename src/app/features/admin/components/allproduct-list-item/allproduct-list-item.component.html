@@ -1,0 +1,21 @@
+<div
+  style="cursor: pointer;"
+  routerLinkActive="active"
+  class="list-group-item clearfix">
+  <div class="pull-left">
+    <h4 class="list-group-item-heading">{{ actualAllProductDto.name }}</h4>
+    <p class="list-group-item-text">Price: {{ actualAllProductDto.price }} $</p>
+    <p class="list-group-item-text">Valid: {{ actualAllProductDto.valid }}</p>
+  </div>
+  <div class="pull-left col-lg-2">
+    <button  class="btn btn-success" (click)="validate($event, actualAllProductDto.id)">Validate</button>
+    <button class="btn btn-danger" (click)="delete($event, actualAllProductDto.id)" >Delete</button>
+  </div>
+  <span class="pull-right">
+        <img
+          [src]="actualAllProductDto.image"
+          alt="{{ actualAllProductDto.name }}"
+          class="img-responsive"
+          style="max-height: 50px;">
+      </span>
+</div>

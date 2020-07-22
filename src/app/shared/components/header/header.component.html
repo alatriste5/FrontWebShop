@@ -1,0 +1,41 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#"
+         class="navbar-brand">Webshop</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active"><a routerLink="/products" *ngIf="isAuthenticated">Products</a></li>
+        <li routerLinkActive="active"><a routerLink="/products/create" *ngIf="isAuthenticated">Add New Product</a></li>
+      </ul>
+
+
+      <ul class="nav navbar-nav navbar-right">
+        <li routerLinkActive="active"><a routerLink="/auth/login" *ngIf="!isAuthenticated">Login</a></li>
+        <li routerLinkActive="active" ><a href="#" (click)="logout()" *ngIf="isAuthenticated">Logout</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown" appDropdown *ngIf="isAdmin">
+          <a style="cursor: pointer;" class="dropdown-toggle" role="button">Admin <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li routerLinkActive="active"><a routerLink="/users" *ngIf="isAdmin">Users</a></li>
+            <li routerLinkActive="active"><a routerLink="/admin/productlist" *ngIf="isAdmin">UnValidList</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="nav navbar-nav navbar-right" *ngIf="isAuthenticated">
+        <li class="dropdown" appDropdown *ngIf="true">
+          <a style="cursor: pointer;" class="dropdown-toggle" role="button">{{this.curractiveUser.username}}<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li routerLinkActive="active"><a routerLink="/users/{{this.curractiveUser.id}}" *ngIf="isAuthenticated">Profile</a></li>
+            <li routerLinkActive="active"><a routerLink="/address/add/{{this.curractiveUser.addressid}}" *ngIf="isAuthenticated">Address</a></li>
+          </ul>
+        </li>
+      </div>
+
+    </div>
+  </div>
+</nav>

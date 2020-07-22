@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-5">
+    <img
+      [src]="tempProductDto?.image"
+      alt="{{ tempProductDto?.name }}"
+      class="img-responsive"
+      style="max-height: 300px;">
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <h1>{{ tempProductDto?.name }}</h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    <div class="btn-group" >
+      <button type="button" class="btn btn-success">Bye</button>
+    </div>
+    <div class="btn-group" *ngIf="ownproduct">
+      <button type="button" class="btn btn-primary" (click)="onEditProduct()" >Edit</button>
+    </div>
+    <div class="btn-group" *ngIf="ownproduct">
+      <button type="button" class="btn btn-danger" (click)="onDeleteProduct()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    Price: {{tempProductDto?.price}} $
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    Seller: {{tempUserDto?.username}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12">
+    Details: {{tempProductDto?.details}}
+  </div>
+</div>
