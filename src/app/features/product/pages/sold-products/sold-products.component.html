@@ -1,0 +1,12 @@
+<div class="row">
+  <div>
+    <h3>Sold Products</h3>
+  </div>
+  <div class="col-xs-12">
+    <app-product-list-item
+      *ngFor="let prodEl of currentProductDtoList"
+      [actualProductDto]="prodEl"
+    ></app-product-list-item>
+    <p *ngIf="!(currentProductDtoList?.length>0)">No Products</p>
+  </div>
+</div>

@@ -92,7 +92,6 @@ export class CreateProductComponent implements OnInit {
       //console.log(this.productForm.value);
       this.productService.addProduct(this.productForm.value).pipe(takeUntil(this.destroy$)).subscribe(
         res => {
-          // TODO: Sikerüzenet küldés
           this.onCancel();
         },
         error => {

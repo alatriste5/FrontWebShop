@@ -58,10 +58,10 @@ export class ProductService {
     }
   }
 
-  getMyPurchase(): Observable<ProductDto[]> {
+  getMyPurchase(id: number): Observable<ProductDto[]> {
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     if(!(this.curractiveUser == null)){
-      return this.http.get<ProductDto[]>('http://localhost:8080/product/purchases/'+this.curractiveUser.id,
+      return this.http.get<ProductDto[]>('http://localhost:8080/product/purchases/'+id,
         {
           params: new HttpParams().set('auth', this.curractiveUser.token)
         }

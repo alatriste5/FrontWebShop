@@ -105,7 +105,5 @@ export class EditUserComponent implements OnInit, OnDestroy {
         }, 10000);
       }
     );
-    //TODO: Kiüríteni a password mezőt
-    //TODO: Show error message
   }
 }
