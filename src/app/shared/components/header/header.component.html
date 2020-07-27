@@ -8,6 +8,7 @@
       <ul class="nav navbar-nav">
         <li routerLinkActive="active"><a routerLink="/products" *ngIf="isAuthenticated">Products</a></li>
         <li routerLinkActive="active"><a routerLink="/products/create" *ngIf="isAuthenticated">Add New Product</a></li>
+        <li routerLinkActive="active"><a routerLink="/products/sold/sold" *ngIf="isAuthenticated">Sold Products</a></li>
       </ul>
 
 
@@ -32,6 +33,8 @@
           <ul class="dropdown-menu">
             <li routerLinkActive="active"><a routerLink="/users/{{this.curractiveUser.id}}" *ngIf="isAuthenticated">Profile</a></li>
             <li routerLinkActive="active"><a routerLink="/address/add/{{this.curractiveUser.addressid}}" *ngIf="isAuthenticated">Address</a></li>
+            <li routerLinkActive="active"><a routerLink="/products/own/{{this.curractiveUser.id}}" *ngIf="isAuthenticated">My products</a></li>
+            <li routerLinkActive="active"><a routerLink="/products/sold/purchases" *ngIf="isAuthenticated">My Purchases</a></li>
           </ul>
         </li>
       </div>

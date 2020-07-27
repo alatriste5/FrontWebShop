@@ -25,6 +25,14 @@
 </div>
 <div class="row">
   <div class="col-xs-12">
-    <p>Created at: {{ tempUser?.createdat }}</p>
+    <p>Created at: {{ tempUser?.createdat | date: 'd LLLL yyyy' }}</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <button class="btn btn-primary" (click)="editUser()">
+      Edit
+    </button>
   </div>
 </div>

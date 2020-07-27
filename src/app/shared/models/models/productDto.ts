@@ -1,4 +1,3 @@
-
 export interface ProductDto {
   id: number;
   name: string;
@@ -9,5 +8,4 @@ export interface ProductDto {
   soldat?: string;
   image?: string;
   valid?: number;
-  //sellername?: string;
 }

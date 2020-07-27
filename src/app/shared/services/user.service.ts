@@ -50,22 +50,5 @@ export class UserService {
     }
   }
 
-  updateUser(user: UserDto): Observable<boolean>{
-    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
-    if(this.curractiveUser == null) {
-      //console.log("Nincs belepett user");
-      this.router.navigate(['auth/login']);
-    } else if(this.curractiveUser.role != 'Admin'){
-      //console.log("Van belepett user, de o nem admin");
-      this.router.navigate(['home']);
-    }
-    else {
-      //console.log("A belepett user admin");
-      return this.http.post<boolean>('http://localhost:8080/users/update',user,
-        {
-          params: new HttpParams().set('auth', this.curractiveUser.token)
-        }
-      );
-    }
-  }
+
 }

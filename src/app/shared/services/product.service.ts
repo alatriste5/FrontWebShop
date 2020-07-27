@@ -58,11 +58,39 @@ export class ProductService {
     }
   }
 
+  getMyPurchase(): Observable<ProductDto[]> {
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(!(this.curractiveUser == null)){
+      return this.http.get<ProductDto[]>('http://localhost:8080/product/purchases/'+this.curractiveUser.id,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
+    }
+    else {
+      this.router.navigate(['auth/login']);
+    }
+  }
+
   validateUnValidProduct(id: number) {
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     return this.http.put('http://localhost:8080/product/valid/'+id,null,{
       params: new HttpParams().set('auth', this.curractiveUser.token)
     });
+  }
+
+  getSoldProducts(): Observable<ProductDto[]> {
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(!(this.curractiveUser == null)) {
+      return this.http.get<ProductDto[]>('http://localhost:8080/product/sold',
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
+    }
+    else {
+      this.router.navigate(['auth/login']);
+    }
   }
 
   getUsername(id: number): Observable<UserDto> {
@@ -99,6 +127,37 @@ export class ProductService {
         params: new HttpParams().set('auth', this.curractiveUser.token)
       }
     );
+  }
+
+  getOwnValidProducts(id: number): Observable<ProductDto[]> {
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(!(this.curractiveUser == null)){
+      return this.http.get<ProductDto[]>('http://localhost:8080/product/ownvalid/' + id,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+        );
+    }
+    else {
+      this.router.navigate(['auth/login']);
+    }
+  }
+
+  sellProduct(product: ProductDto) {
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    product.customerid = this.curractiveUser.id;
+    console.log("UP Prod");
+    console.log(product);
+    if(!(this.curractiveUser == null)) {
+      return this.http.put('http://localhost:8080/product/sell',product,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
+    }
+    else {
+      this.router.navigate(['auth/login']);
+    }
   }
 
 }

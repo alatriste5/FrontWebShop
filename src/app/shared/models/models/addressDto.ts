@@ -1,4 +1,4 @@
-export class addressDto {
+export interface addressDto {
   id: number;
   country: string;
   postcode: number;

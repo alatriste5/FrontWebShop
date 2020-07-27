@@ -16,9 +16,13 @@ const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: 'home', component: HomeComponent},
   {path: 'products', component: ProductListComponent},
+
   {path: 'products/create', component: CreateProductComponent},
+  {path: 'products/sold/:sold', component: ProductListComponent},
   {path: 'products/:id', component: ProductItemComponent},
   {path: 'products/edit/:id', component: CreateProductComponent},
+  {path: 'products/own/:id', component: ProductListComponent},
+
   {path: 'auth/login', component: LoginComponent},
   {path: 'auth/signup', component: SignupComponent},
   {path: 'address/add', component: CreateAddressComponent},

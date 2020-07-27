@@ -51,7 +51,7 @@ export class AuthService {
   signupaddress(address: addressDto): Observable<number>{
     return this.http.post<number>('http://localhost:8080/address',address);
   }
-  updateUser(user: UserDto): Observable<boolean>{ //Set the addressid in user
+  updateUserAddressId(user: UserDto): Observable<boolean>{ //Set the addressid in user
     return this.http.post<boolean>('http://localhost:8080/users/updatebyusername',user);
   }
 
@@ -75,6 +75,32 @@ export class AuthService {
         });
     }
   }
+
+  updateUser(user: UserDto): Observable<boolean>{
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(this.curractiveUser == null) {
+      //console.log("There is no logged in user");
+      this.router.navigate(['auth/login']);
+    } else if((this.curractiveUser.role != 'Admin') && (this.curractiveUser.id != user.id)) {
+      //console.log("The logged in user not admin or he don't want to see own datas");
+      this.router.navigate(['home']);
+    }
+    else {
+      //console.log("The user is admin or the user want to see own datas");
+      return this.http.post<boolean>('http://localhost:8080/users/update',user,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      ).pipe(tap(
+        res => {
+          this.handleAuthentication(user.id, user.username, user.name, user.email, user.addressid, user.role, this.curractiveUser.token);
+        }
+      ));
+
+    }
+  }
+
+
 
   private handleAuthentication(id: number, username: string, name: string, email: string,
                                addressid: number, role: string, token: string){

@@ -15,6 +15,7 @@ export class UserItemComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   userid: number;
   tempUser: UserDto;
+  today: number;
 
   constructor(
     private router: Router,
@@ -33,6 +34,11 @@ export class UserItemComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+
+    this.today = Date.now();
+  }
+  editUser(){
+    this.router.navigate(['users/edit/'+this.userid]);
   }
 
   ngOnDestroy() {

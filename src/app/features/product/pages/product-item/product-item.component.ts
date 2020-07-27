@@ -19,9 +19,14 @@ export class ProductItemComponent implements OnInit, OnDestroy {
   productid: number;
   tempUserDto: UserDto;
 
+  tempSoldat = false;
+  tempStatus: String;
+  tempCustomerDto: UserDto;
+
   //Product owner want to see the page or somebody else
   ownproduct = false;
   curractiveUser: activeUser;
+  isadmin = false;
 
   constructor(
     private router: Router,
@@ -37,17 +42,39 @@ export class ProductItemComponent implements OnInit, OnDestroy {
       concatMap(res => {
         this.tempProductDto = res;
 
-        if(this.tempProductDto.sellerid == this.curractiveUser.id || this.curractiveUser.role == "Admin"){
+        if(this.tempProductDto.sellerid == this.curractiveUser.id ){
           this.ownproduct = true;
         }
+        if(this.curractiveUser.role == "Admin"){
+          this.isadmin = true;
+        }
+
         //console.log(res);
-        return this.productService.getUsername(this.tempProductDto.sellerid)
+        if(this.tempProductDto.valid == 1){
+          this.tempStatus = "Active";
+        } else if(this.tempProductDto.valid == 0 ){
+          this.tempStatus = "Unactive - Not validated";
+        } else if(this.tempProductDto.valid == 2){
+          this.tempSoldat = true;
+          this.tempStatus = "Sold";
+        }
+
+        if(this.tempSoldat) {
+          this.productService.getUsername(this.tempProductDto.customerid).subscribe(
+            res => {
+              this.tempCustomerDto = res;
+            },
+            error => {
+              console.log(error);
+            }
+          );
+        }
+
+        return this.productService.getUsername(this.tempProductDto.sellerid);
       }),
     ).subscribe(
       res2 =>{
         this.tempUserDto = res2;
-        //localStorage.setItem('localProduct', JSON.stringify(this.tempProductDto));
-        //localStorage.setItem('localUserName', JSON.stringify(this.tempUserDto));
       }
     );
   }
@@ -64,7 +91,7 @@ export class ProductItemComponent implements OnInit, OnDestroy {
   onDeleteProduct() {
     this.productService.deleteProduct(this.productid).subscribe(
       res => {
-        console.log(res);
+        //TODO megerősítés, majd sikeres üzenetküldés
       },
       error => {
         console.log(error);
@@ -73,6 +100,18 @@ export class ProductItemComponent implements OnInit, OnDestroy {
     this.router.navigate(['products']).then(() => {
       window.location.reload();
     });
+  }
+
+  onSell() {
+    this.productService.sellProduct(this.tempProductDto).subscribe(
+      res => {
+        //TODO megerősítés, majd sikeres üzenetküldés
+        this.router.navigate(['products']);
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
 }

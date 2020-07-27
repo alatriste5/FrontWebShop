@@ -6,6 +6,8 @@
     <h4 class="list-group-item-heading">{{ actualAllProductDto.name }}</h4>
     <p class="list-group-item-text">Price: {{ actualAllProductDto.price }} $</p>
     <p class="list-group-item-text">Valid: {{ actualAllProductDto.valid }}</p>
+    <p class="list-group-item-text">Seller: {{ actualAllProductDto.sellerid }}</p>
+    <p class="list-group-item-text">Details: {{ actualAllProductDto.details }}</p>
   </div>
   <div class="pull-left col-lg-2">
     <button  class="btn btn-success" (click)="validate($event, actualAllProductDto.id)">Validate</button>

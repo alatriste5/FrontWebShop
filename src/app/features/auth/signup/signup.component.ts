@@ -23,12 +23,12 @@ export class SignupComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
+    this.tempUser = new UserDto;
   }
 
   onSubmit(form: NgForm){
     this.error = null;
     if(form.value.password == form.value.password2){
-      this.tempUser = new UserDto();
       this.tempUser.username = form.value.username;
       this.tempUser.name = form.value.name;
       this.tempUser.email = form.value.email;

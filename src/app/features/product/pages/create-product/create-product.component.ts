@@ -26,13 +26,9 @@ export class CreateProductComponent implements OnInit {
   tempUserDto: UserDto;
   curractiveUser: activeUser;
 
-
-
-  constructor(/*private fb: FormBuilder,*/
-              private productService: ProductService,
+  constructor(private productService: ProductService,
               private router: Router,
-              private route: ActivatedRoute,
-              private authService: AuthService) {}
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -104,13 +100,11 @@ export class CreateProductComponent implements OnInit {
         }
       );
     } else {
-
-      //TODO -- a fenéért fordul az error ágra, amikor a végrehajtás OK és a szerver ok (200)-as választ ad?
       this.productService.updateProduct(this.productForm.value)
         .subscribe(
         res => {
           console.log(res);
-          this.onCancel();
+          //this.onCancel();
         },
         error => {
           console.log("Create-product - updateProduct error");
@@ -119,32 +113,10 @@ export class CreateProductComponent implements OnInit {
       );
     }
   }
+
   onCancel() {
     this.router.navigate(['products']).then(() => {
       window.location.reload();
     });
   }
-
-  /*
-  private initForm() {
-    if (this.editMode) {
-      this.productService.getProduct(this.id).pipe(
-        takeUntil(this.destroy$),
-        concatMap(res => {
-          this.tempProductDto = res;
-          console.log(res);
-          return this.productService.getUsername(this.tempProductDto.sellerid)
-        }),
-      ).subscribe(
-        res2 =>{
-          console.log(res2);
-          this.tempUserDto = res2;
-        }
-      );
-    }
-
-  }
-*/
-
-
 }
