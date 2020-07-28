@@ -30,9 +30,15 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-12">
+  <div *ngIf="!isadmin" class="col-xs-12">
     <button class="btn btn-primary" (click)="editUser()">
       Edit
+    </button>
+  </div>
+  <hr>
+  <div *ngIf="isadmin" class="col-xs-12">
+    <button class="btn btn-primary" (click)="editUserRole()">
+      Edit User datas as Admin
     </button>
   </div>
 </div>

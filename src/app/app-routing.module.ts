@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {CreateProductComponent} from "./features/product/pages/create-product/create-product.component";
 import {ProductItemComponent} from "./features/product/pages/product-item/product-item.component";
-import {ProductListComponent} from "./features/product/pages/product-list/product-list.component";
 import {LoginComponent} from "./features/auth/login/login.component";
 import {SignupComponent} from "./features/auth/signup/signup.component";
 import {CreateAddressComponent} from "./features/address/pages/create-address/create-address.component";
@@ -15,6 +14,7 @@ import {AllProductsComponent} from "./features/product/pages/all-products/all-pr
 import {SoldProductsComponent} from "./features/product/pages/sold-products/sold-products.component";
 import {MyProductsComponent} from "./features/product/pages/my-products/my-products.component";
 import {MyPurchasesComponent} from "./features/product/pages/my-purchases/my-purchases.component";
+import {EditUserAsAdminComponent} from "./features/user/pages/edit-user-as-admin/edit-user-as-admin.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -35,6 +35,7 @@ const routes: Routes = [
   {path: 'users', component: UserListComponent},
   {path: 'users/:id', component: UserItemComponent},
   {path: 'users/edit/:id', component: EditUserComponent},
+  {path: 'users/editasadmin/:id', component: EditUserAsAdminComponent},
   {path: 'admin/productlist', component:AllproductListComponent}
 
 

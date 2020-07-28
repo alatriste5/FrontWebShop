@@ -17,17 +17,27 @@ export class UserItemComponent implements OnInit, OnDestroy {
   tempUser: UserDto;
   today: number;
 
+  curractiveUser: UserDto;
+  isadmin: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private userService: UserService) { }
 
   ngOnInit(): void {
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    {
+      if(this.curractiveUser.role == "Admin"){
+        this.isadmin = true;
+      }
+    }
+
+
     this.userid = +this.route.snapshot.paramMap.get("id");
 
     this.userService.getUser(this.userid).pipe(takeUntil(this.destroy$)).subscribe(
       res=>{
-        //console.log(res);
         this.tempUser = res;
       },
       error => {
@@ -37,8 +47,13 @@ export class UserItemComponent implements OnInit, OnDestroy {
 
     this.today = Date.now();
   }
+
   editUser(){
     this.router.navigate(['users/edit/'+this.userid]);
+  }
+
+  editUserRole(){
+    this.router.navigate(['users/editasadmin/'+this.userid]);
   }
 
   ngOnDestroy() {

@@ -1,18 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {UserService} from "../../../../shared/services/user.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
 import {UserDto} from "../../../../shared/models/models/UserDto";
-import {takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserService} from "../../../../shared/services/user.service";
 import {AuthService} from "../../../../shared/services/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {takeUntil} from "rxjs/operators";
 
 @Component({
-  selector: 'app-edit-user',
-  templateUrl: './edit-user.component.html',
-  styleUrls: ['./edit-user.component.scss']
+  selector: 'app-edit-user-as-admin',
+  templateUrl: './edit-user-as-admin.component.html',
+  styleUrls: ['./edit-user-as-admin.component.scss']
 })
-export class EditUserComponent implements OnInit, OnDestroy {
+export class EditUserAsAdminComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   userForm: FormGroup;
@@ -21,7 +21,6 @@ export class EditUserComponent implements OnInit, OnDestroy {
   curractiveUser: UserDto;
   isadmin = false;
 
-
   changesuccess = false;
   changeerror = false;
   errormessage = null;
@@ -29,17 +28,17 @@ export class EditUserComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private authService: AuthService,
-              private route: ActivatedRoute,
-              private router: Router) {
-  }
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+
     this.userForm = this.fb.group({
       username: ['', Validators.required],
       name: ['', Validators.required],
-      password: ['', Validators.required],
       email: ['', Validators.required],
-      id: [null]
+      role: ['', Validators.required],
+      id: [null],
+      password: ['', Validators.required]
     });
 
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
@@ -69,6 +68,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
       username: res.username,
       name: res.name,
       email: res.email,
+      role: res.role,
       id: res.id
     });
 
@@ -80,15 +80,16 @@ export class EditUserComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.authService.updateUser(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
+    //console.log(this.userForm.value);
+    this.authService.updateUserAsAdmin(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        this.router.navigate(['home']);
         this.changesuccess = true;
 
         setTimeout(() => {
           this.changesuccess = false;
+          window.location.reload();
 
-        }, 4000);
+        }, 3000);
       },
       error => {
         console.log(error);

@@ -55,6 +55,7 @@ export class AuthService {
     return this.http.post<boolean>('http://localhost:8080/users/updatebyusername',user);
   }
 
+
   updateAddress(address: addressDto): Observable<boolean>{
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     return this.http.post<boolean>('http://localhost:8080/address/update',address,
@@ -97,6 +98,25 @@ export class AuthService {
         }
       ));
 
+    }
+  }
+
+  updateUserAsAdmin(user: UserDto): Observable<boolean>{
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(this.curractiveUser == null) {
+      //console.log("There is no logged in user");
+      this.router.navigate(['auth/login']);
+    } else if(this.curractiveUser.role != 'Admin') {
+      //console.log("The logged in user not admin");
+      this.router.navigate(['home']);
+    }
+    else {
+      //console.log("The user is admin");
+      return this.http.post<boolean>('http://localhost:8080/users/updateasadmin',user,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
     }
   }
 

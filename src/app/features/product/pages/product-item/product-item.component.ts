@@ -89,29 +89,33 @@ export class ProductItemComponent implements OnInit, OnDestroy {
   }
 
   onDeleteProduct() {
-    this.productService.deleteProduct(this.productid).subscribe(
-      res => {
-        //TODO megerősítés, majd sikeres üzenetküldés
-      },
-      error => {
-        console.log(error);
-      }
-    );
-    this.router.navigate(['products']).then(() => {
-      window.location.reload();
-    });
+    if(confirm("Are you sure to delete this product?")) {
+      this.productService.deleteProduct(this.productid).subscribe(
+        res => {
+          //TODO megerősítés, majd sikeres üzenetküldés
+        },
+        error => {
+          console.log(error);
+        }
+      );
+      this.router.navigate(['products']).then(() => {
+        window.location.reload();
+      });
+    }
   }
 
   onSell() {
-    this.productService.sellProduct(this.tempProductDto).subscribe(
-      res => {
-        //TODO megerősítés, majd sikeres üzenetküldés
-        this.router.navigate(['products']);
-      },
-      error => {
-        console.log(error);
-      }
-    )
+    if (confirm("Are you sure to buy this product?")) {
+      this.productService.sellProduct(this.tempProductDto).subscribe(
+        res => {
+          //TODO megerősítés, majd sikeres üzenetküldés
+          this.router.navigate(['products']);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }
 
 }
