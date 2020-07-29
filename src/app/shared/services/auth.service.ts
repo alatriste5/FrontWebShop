@@ -40,19 +40,18 @@ export class AuthService {
         });
     }
     else {
-      console.log("else");
-      this.router.navigate(['home']);
+      window.location.reload();
     }
   }
 
   //There 3 method not need to check token, because when someone want to signup he don't have token
-  signupuser(user: UserDto): Observable<UserDto>{
-    return this.http.post<UserDto>('http://localhost:8080/users',user);
+  signupuser(user: UserDto): Observable<Response>{
+    return this.http.post<Response>('http://localhost:8080/users',user);
   }
   signupaddress(address: addressDto): Observable<number>{
     return this.http.post<number>('http://localhost:8080/address',address);
   }
-  updateUserAddressId(user: UserDto): Observable<boolean>{ //Set the addressid in user
+  updateUserAddressId(user: any): Observable<boolean>{ //Set the addressid in user
     return this.http.post<boolean>('http://localhost:8080/users/updatebyusername',user);
   }
 
@@ -186,22 +185,12 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'An unknown error occurred!';
-    if (!errorRes.error || !errorRes.error.error) {
-      return throwError(errorMessage);
+    if (errorRes.error){
+      return throwError(errorRes.error);
     }
-    switch (errorRes.error.error.message) {
-      case 'EMAIL_EXISTS':
-        errorMessage = 'This email exists already';
-        break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage = 'This email does not exist.';
-        break;
-      case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
-        break;
+    else {
+      return throwError('An unknown error occurred!');
     }
-    return throwError(errorMessage);
   }
 
 }

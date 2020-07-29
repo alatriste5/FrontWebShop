@@ -68,55 +68,5 @@
     </form>
   </div>
 </div>
-<!--
-<div class="row">
-  <div class="col-xs-12 col-md-6 col-md-offset-3">
-
-<form [formGroup]="productForm" (ngSubmit)="onSubmit()">
-  <div class="input-container">
-    <label class="col-sm-2 control-label" for="name">Name</label>
-    <input class="form-control" type="text" name="name" id="name" formControlName="name">
-  </div>
-  <div class="input-container">
-    <label class="col-sm-2 control-label" for="price">Price</label>
-    <input class="form-control" type="text" name="price" id="price" formControlName="price">
-  </div>
-
-  <div class="input-container">
-    <label class="col-sm-2 control-label" for="details">Details</label>
-    <input class="form-control" type="text" name="details" id="details" formControlName="details">
-  </div>
-
-  <div class="input-container">
-    <label class="col-sm-2 control-label" for="image">Image</label>
-    <input class="form-control" type="text" name="image" id="image" formControlName="image" #imagePath>
-  </div>
-
-  <div class="row">
-    <div class="col-xs-12">
-      <img [src]="imagePath.value || 'https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled-1150x647.png'"  class="img-responsive" width="500px">
-    </div>
-  </div>
-
-  <div [hidden]="true" class="input-container">
-    <label class="col-sm-2 control-label" for="sellerid">Seller</label>
-    <input class="form-control" type="number" name="sellerid" id="sellerid" formControlName="sellerid">
-  </div>
-
-  <button class="btn btn-primary"
-          type="submit"
-          style="width: 25%">
-    {{ editMode == true ? 'Update Product' : 'Save New Product' }}
-  </button>
-
-</form>
-  </div>
-</div>
-
-  <div [hidden]="!editMode">
-    Seller: {{ tempUserDto?.username }}
-  </div>
-
--->
 
 

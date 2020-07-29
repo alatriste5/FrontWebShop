@@ -34,7 +34,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     )
 
-    //If the home page was reached check the localsorage data. If there is the active User data the the user still can
+    //If the home page was reached check the localsorage data. If there is the active User data the user still can
     //  see the menu links. If the localsorage UserData is empty hide them.
     if(localStorage.getItem("UserData") == null){
       this.isAuthenticated = false;
@@ -57,11 +57,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout(){
     this.authService.logout().pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        console.log("Headerben res ag");
         console.log(res);
       },
       error => {
-        console.log("Headerben eror ag");
         console.log(error);
       }
     )

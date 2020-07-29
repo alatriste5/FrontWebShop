@@ -114,7 +114,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['products/'+this.tempProductDto.id]).then(() => {
+    this.router.navigate(['products']).then(() => {
       window.location.reload();
     });
   }

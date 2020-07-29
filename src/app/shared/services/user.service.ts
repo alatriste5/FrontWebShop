@@ -50,6 +50,20 @@ export class UserService {
     }
   }
 
+  deleteUser(id: number): Observable<boolean>{
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    console.log("token: " + this.curractiveUser.token);
+    if(this.curractiveUser.role == 'Admin') {
+      return this.http.delete<boolean>('http://localhost:8080/users/delete/'+id,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
+    }
+    else {
+      this.router.navigate(['home']);
+    }
+  }
 
 
 

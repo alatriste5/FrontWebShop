@@ -23,6 +23,7 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
 
   changesuccess = false;
   changeerror = false;
+  successmessage = null;
   errormessage = null;
 
   constructor(private fb: FormBuilder,
@@ -81,29 +82,66 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
+    console.log("onsubmit called");
     //console.log(this.userForm.value);
     this.authService.updateUserAsAdmin(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
         this.changesuccess = true;
+        this.successmessage = "Successfully updated";
 
         setTimeout(() => {
+          this.successmessage = null;
           this.changesuccess = false;
-          this.router.navigate(['users/'+this.curractiveUser.id]);
+          this.router.navigate(['users/'+this.id]);
 
         }, 3000);
       },
       error => {
         console.log(error);
         this.errormessage = error.error;
-
         this.changeerror = true;
 
         setTimeout(() => {
           this.changeerror = false;
           this.errormessage = null;
+          window.location.reload();
 
         }, 10000);
       }
     );
+  }
+
+  onDelete(){
+    if(confirm("Are you sure to delete this user?")) {
+      this.userService.deleteUser(this.id).pipe(takeUntil(this.destroy$)).subscribe(
+        res => {
+          console.log(res);
+
+          this.changesuccess = true;
+          this.successmessage = "Successfully delete";
+
+          setTimeout(() => {
+            this.successmessage = null;
+            this.changesuccess = false;
+            this.router.navigate(['users/'+this.id]);
+
+          }, 3000);
+
+          this.router.navigate(['users']);
+        }, error => {
+          console.log(error);
+
+          this.errormessage = error.error;
+          this.changeerror = true;
+
+          setTimeout(() => {
+            this.changeerror = false;
+            this.errormessage = null;
+            window.location.reload();
+
+          }, 10000);
+        }
+      );
+    }
   }
 }

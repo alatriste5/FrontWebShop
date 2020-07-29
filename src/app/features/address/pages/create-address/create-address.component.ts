@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../../shared/services/auth.service";
-import {addressDto} from "../../../../shared/models/models/addressDto";
 import {concatMap, takeUntil} from "rxjs/operators";
 import {Subject} from "rxjs";
 import {UserDto} from "../../../../shared/models/models/UserDto";
@@ -89,14 +88,15 @@ export class CreateAddressComponent implements OnInit {
       takeUntil(this.destroy$),
       concatMap(res => {
         const user = {}
-       user["username"] = localStorage.getItem("newusername");
+        user["username"] = localStorage.getItem("newusername");
         user["addressid"] = res;
-        return this.authService.updateUserAddressId(this.tempUser)
+        return this.authService.updateUserAddressId(user)
       }),
     ).subscribe(
       res => {
-        console.log(res)
+        //console.log(res)
         console.log('success');
+        localStorage.removeItem("newusername");
       },
       error => {
         console.log(error);
