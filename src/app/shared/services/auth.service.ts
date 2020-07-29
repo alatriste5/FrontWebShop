@@ -17,30 +17,31 @@ export class AuthService {
   constructor(private http: HttpClient,
               private router: Router) {}
 
+  //There is not need to check token, because if someone want to login he don't have token
   login(user: UserDto){
     return this.http.post<AuthResponseData>('http://localhost:8080/authentication/login', user).pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuthentication(resData.id,resData.username,resData.name,resData.email,resData.addressId,resData.role,resData.token);
+        this.handleAuthentication(resData.id,resData.username,resData.name,resData.email,
+          resData.addressId,resData.role,resData.token,resData.registeredIn);
       })
     );
   }
 
-  //There is not need to check token, because if someone want to login he don't have token
   logout(){
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     if(this.curractiveUser != null){
-      localStorage.clear();
 
-      return this.http.post('http://localhost:8080/authentication/logout/?',null,
+      localStorage.removeItem("UserData");
+
+      return this.http.post('http://localhost:8080/authentication/logout/',null,
         {
           params: new HttpParams().set('auth', this.curractiveUser.token)
         });
-
-      //this.router.navigate(['auth/login']);
     }
     else {
-      //this.router.navigate(['']);
+      console.log("else");
+      this.router.navigate(['home']);
     }
   }
 
@@ -67,7 +68,7 @@ export class AuthService {
   getAddress(id: number): Observable<addressDto>{
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     if(this.curractiveUser == null) {
-      //console.log("Nincs belepett user");
+      //console.log("No logged in user");
       this.router.navigate(['auth/login']);
     } else {
       return this.http.get<addressDto>('http://localhost:8080/address/' + id,
@@ -94,7 +95,8 @@ export class AuthService {
         }
       ).pipe(tap(
         res => {
-          this.handleAuthentication(user.id, user.username, user.name, user.email, user.addressid, user.role, this.curractiveUser.token);
+          this.handleAuthentication(user.id, user.username, user.name, user.email,
+            user.addressid, user.role, this.curractiveUser.token,null);
         }
       ));
 
@@ -120,10 +122,52 @@ export class AuthService {
     }
   }
 
+  autoLogin(){
+    const tempUser: {
+      id: number,
+      username: string,
+      name: string,
+      email: string,
+      addressid: number,
+      role: string,
+      _token: string,
+      registeredIn: number
+    } = JSON.parse(localStorage.getItem("UserData"));
+
+    if(!tempUser){
+      return
+    }
+
+    const loadedUser = new activeUser(
+      tempUser.id, tempUser.username, tempUser.name, tempUser.email, tempUser.addressid, tempUser.role, tempUser._token,
+      tempUser.registeredIn
+    );
+
+    if(loadedUser.registeredIn) {
+      this.activeUser.next(loadedUser);
+
+      const expirationDuration = new Date(tempUser.registeredIn).getTime() - new Date().getTime() + 600000;
+      this.autoLogout(expirationDuration);
+    }
+
+  }
+
+  autoLogout(expirationDuration: number) {
+    console.log("Auto Logout after: " + expirationDuration);
+    setTimeout(() => {
+      this.logout().subscribe(res => {
+
+        window.location.reload();
+        console.log("Auto logged out");
+      }, error => {
+        console.log("error")
+      })
+    }, expirationDuration);
+  }
 
 
   private handleAuthentication(id: number, username: string, name: string, email: string,
-                               addressid: number, role: string, token: string){
+                               addressid: number, role: string, token: string, registeredIn: number){
     const activeUser1 = new activeUser(
       id,
       username,
@@ -131,8 +175,14 @@ export class AuthService {
       email,
       addressid,
       role,
-      token);
+      token,
+      registeredIn);
+
     this.activeUser.next(activeUser1);
+    const expirationDuration = new Date(registeredIn).getTime() - new Date().getTime() + 600000;
+
+    this.autoLogout(expirationDuration);
+
   }
 
   private handleError(errorRes: HttpErrorResponse) {
@@ -163,4 +213,5 @@ interface AuthResponseData {
   addressId: number;
   role: string;
   token: string;
+  registeredIn: number;
 }

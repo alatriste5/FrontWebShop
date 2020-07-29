@@ -6,7 +6,8 @@ export class activeUser{
     public email: string,
     public addressid: number,
     public role: string,
-    private _token: string
+    private _token: string,
+    public registeredIn: number
   ) {}
 
   get token(){

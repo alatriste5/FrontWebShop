@@ -103,7 +103,7 @@ export class CreateProductComponent implements OnInit {
         .subscribe(
         res => {
           console.log(res);
-          //this.onCancel();
+          this.onCancel();
         },
         error => {
           console.log("Create-product - updateProduct error");
@@ -114,7 +114,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['products']).then(() => {
+    this.router.navigate(['products/'+this.tempProductDto.id]).then(() => {
       window.location.reload();
     });
   }

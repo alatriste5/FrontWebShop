@@ -28,7 +28,8 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private authService: AuthService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit(): void {
 
@@ -87,7 +88,7 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
           this.changesuccess = false;
-          window.location.reload();
+          this.router.navigate(['users/'+this.curractiveUser.id]);
 
         }, 3000);
       },

@@ -82,11 +82,11 @@ export class EditUserComponent implements OnInit, OnDestroy {
   onSubmit() {
     this.authService.updateUser(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        this.router.navigate(['home']);
         this.changesuccess = true;
 
         setTimeout(() => {
           this.changesuccess = false;
+          this.router.navigate(['users/'+this.id]);
 
         }, 4000);
       },
