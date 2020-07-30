@@ -100,15 +100,21 @@ export class ProductService {
         params: new HttpParams().set('auth', this.curractiveUser.token)
       }
     );
+
   }
 
   addProduct(product: ProductDto) {
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
-    return this.http.post('http://localhost:8080/product', product,
-      {
-        params: new HttpParams().set('auth', this.curractiveUser.token)
-      }
-    );
+    if(!(this.curractiveUser == null)) {
+      return this.http.post('http://localhost:8080/product', product,
+        {
+          params: new HttpParams().set('auth', this.curractiveUser.token)
+        }
+      );
+    }
+    else {
+      this.router.navigate(['auth/login']);
+    }
   }
 
   updateProduct(product: ProductDto) {
@@ -143,13 +149,11 @@ export class ProductService {
     }
   }
 
-  sellProduct(product: ProductDto) {
+  sellProduct(product: ProductDto): Observable<boolean> {
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     product.customerid = this.curractiveUser.id;
-    console.log("UP Prod");
-    console.log(product);
     if(!(this.curractiveUser == null)) {
-      return this.http.put('http://localhost:8080/product/sell',product,
+      return this.http.put<boolean>('http://localhost:8080/product/sell',product,
         {
           params: new HttpParams().set('auth', this.curractiveUser.token)
         }

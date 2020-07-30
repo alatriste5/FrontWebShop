@@ -1,21 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { FormControl, FormGroup, Validators} from "@angular/forms";
 import {ProductService} from "../../../../shared/services/product.service";
 import {ProductDto} from "../../../../shared/models/models/productDto";
-import {catchError, concatMap, map, takeUntil, tap} from "rxjs/operators";
-import {Subject, throwError} from "rxjs";
+import {concatMap, takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {UserDto} from "../../../../shared/models/models/UserDto";
 import {activeUser} from "../../../../shared/models/models/activeUser.model";
-import {HttpErrorResponse} from "@angular/common/http";
-import {AuthService} from "../../../../shared/services/auth.service";
 
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.scss']
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
   productForm: FormGroup;
@@ -31,6 +29,13 @@ export class CreateProductComponent implements OnInit {
               private route: ActivatedRoute) {}
 
   ngOnInit() {
+    //Direct navigate to login
+    this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
+    if(this.curractiveUser == null) {
+      this.router.navigate(['auth/login']);
+    }
+
+
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
@@ -89,7 +94,6 @@ export class CreateProductComponent implements OnInit {
 
   onSubmit() {
     if(!this.editMode) {
-      //console.log(this.productForm.value);
       this.productService.addProduct(this.productForm.value).pipe(takeUntil(this.destroy$)).subscribe(
         res => {
           this.onCancel();
@@ -102,7 +106,6 @@ export class CreateProductComponent implements OnInit {
       this.productService.updateProduct(this.productForm.value)
         .subscribe(
         res => {
-          console.log(res);
           this.onCancel();
         },
         error => {
@@ -117,5 +120,10 @@ export class CreateProductComponent implements OnInit {
     this.router.navigate(['products']).then(() => {
       window.location.reload();
     });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

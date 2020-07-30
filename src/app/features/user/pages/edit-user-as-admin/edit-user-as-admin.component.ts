@@ -3,7 +3,6 @@ import {UserDto} from "../../../../shared/models/models/UserDto";
 import {Subject} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../../shared/services/user.service";
-import {AuthService} from "../../../../shared/services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {takeUntil} from "rxjs/operators";
 
@@ -28,7 +27,6 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
 
   constructor(private fb: FormBuilder,
               private userService: UserService,
-              private authService: AuthService,
               private route: ActivatedRoute,
               private router: Router) { }
 
@@ -82,40 +80,39 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    console.log("onsubmit called");
-    //console.log(this.userForm.value);
-    this.authService.updateUserAsAdmin(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
-      res => {
-        this.changesuccess = true;
-        this.successmessage = "Successfully updated";
+    if(confirm("Are you sure to update this user?")) {
+      this.userService.updateUserAsAdmin(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
+        res => {
+          this.changesuccess = true;
+          this.successmessage = "Successfully updated";
 
-        setTimeout(() => {
-          this.successmessage = null;
-          this.changesuccess = false;
-          this.router.navigate(['users/'+this.id]);
+          setTimeout(() => {
+            this.successmessage = null;
+            this.changesuccess = false;
+            this.router.navigate(['users/' + this.id]);
 
-        }, 3000);
-      },
-      error => {
-        console.log(error);
-        this.errormessage = error.error;
-        this.changeerror = true;
+          }, 3000);
+        },
+        error => {
+          console.log(error);
+          this.errormessage = error.error;
+          this.changeerror = true;
 
-        setTimeout(() => {
-          this.changeerror = false;
-          this.errormessage = null;
-          window.location.reload();
+          setTimeout(() => {
+            this.changeerror = false;
+            this.errormessage = null;
+            window.location.reload();
 
-        }, 10000);
-      }
-    );
+          }, 6000);
+        }
+      );
+    }
   }
 
   onDelete(){
     if(confirm("Are you sure to delete this user?")) {
-      this.userService.deleteUser(this.id).pipe(takeUntil(this.destroy$)).subscribe(
+      this.userService.deleteUser(this.userForm.value).pipe(takeUntil(this.destroy$)).subscribe(
         res => {
-          console.log(res);
 
           this.changesuccess = true;
           this.successmessage = "Successfully delete";
@@ -139,7 +136,7 @@ export class EditUserAsAdminComponent implements OnInit, OnDestroy {
             this.errormessage = null;
             window.location.reload();
 
-          }, 10000);
+          }, 6000);
         }
       );
     }

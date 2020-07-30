@@ -13,7 +13,6 @@ import { SignupComponent } from './features/auth/signup/signup.component';
 import { CreateAddressComponent } from './features/address/pages/create-address/create-address.component';
 import {UserModule} from "./features/user/user.module";
 import {AdminModule} from "./features/admin/admin.module";
-import {DropdownDirective} from "./shared/dropdown.directive";
 
 
 @NgModule({

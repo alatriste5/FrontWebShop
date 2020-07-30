@@ -28,6 +28,11 @@ export class ProductItemComponent implements OnInit, OnDestroy {
   curractiveUser: activeUser;
   isadmin = false;
 
+  changesuccess = false;
+  changeerror = false;
+  errormessage = null;
+  successmessage = null;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -49,7 +54,6 @@ export class ProductItemComponent implements OnInit, OnDestroy {
           this.isadmin = true;
         }
 
-        //console.log(res);
         if(this.tempProductDto.valid == 1){
           this.tempStatus = "Active";
         } else if(this.tempProductDto.valid == 0 ){
@@ -92,10 +96,26 @@ export class ProductItemComponent implements OnInit, OnDestroy {
     if(confirm("Are you sure to delete this product?")) {
       this.productService.deleteProduct(this.productid).subscribe(
         res => {
-          //TODO megerősítés, majd sikeres üzenetküldés
+          this.changesuccess = true;
+          this.successmessage = "Successfully delete";
+          setTimeout(() => {
+            this.changesuccess = false;
+            this.successmessage = null;
+          }, 3000);
         },
         error => {
           console.log(error);
+          this.changeerror = true;
+          if(error.error){
+            this.errormessage = error.error;
+          }
+          else if (error.statusText){
+            this.errormessage = error.statusText;
+          }
+          setTimeout(() => {
+            this.changeerror = false;
+            this.errormessage = null;
+          }, 3000);
         }
       );
       this.router.navigate(['products']).then(() => {
@@ -108,11 +128,38 @@ export class ProductItemComponent implements OnInit, OnDestroy {
     if (confirm("Are you sure to buy this product?")) {
       this.productService.sellProduct(this.tempProductDto).subscribe(
         res => {
-          //TODO megerősítés, majd sikeres üzenetküldés
-          this.router.navigate(['products']);
+
+          if (res == true) {
+
+            console.log("sikerüzenet");
+            this.changesuccess = true;
+            this.successmessage = "Congratulations you bought this "+this.tempProductDto.name;
+
+            setTimeout(() => {
+              this.changesuccess = false;
+              this.successmessage = null;
+              this.router.navigate(['products']);
+            }, 3000);
+
+
+          }
         },
         error => {
+
           console.log(error);
+          this.changeerror = true;
+          if(error.error){
+            this.errormessage = error.error;
+          }
+          else if (error.statusText){
+            this.errormessage = error.statusText;
+          }
+          setTimeout(() => {
+            this.changeerror = false;
+            this.errormessage = null;
+          }, 3000);
+
+
         }
       )
     }

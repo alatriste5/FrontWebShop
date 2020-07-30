@@ -18,7 +18,6 @@ export class AllproductListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.productService.getUnValidProducts().pipe(takeUntil(this.destroy$)).subscribe(
       (res: ProductDto[]) => {
-        //console.log(res);
         this.tempAllProductDtoList = res;
       },
       error => {

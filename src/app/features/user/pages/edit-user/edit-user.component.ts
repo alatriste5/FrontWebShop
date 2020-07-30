@@ -99,8 +99,8 @@ export class EditUserComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.changeerror = false;
           this.errormessage = null;
-
-        }, 10000);
+          window.location.reload();
+        }, 6000);
       }
     );
   }

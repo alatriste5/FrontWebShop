@@ -57,7 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout(){
     this.authService.logout().pipe(takeUntil(this.destroy$)).subscribe(
       res => {
-        console.log(res);
       },
       error => {
         console.log(error);

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../../../shared/services/auth.service";
 import {Router} from "@angular/router";
@@ -12,11 +12,12 @@ import {addressDto} from "../../../shared/models/models/addressDto";
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss']
 })
-export class SignupComponent implements OnInit {
-  error: string = null;
+export class SignupComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tempUser: UserDto;
+  changeerror = false;
+  errormessage = null;
 
 
   constructor(private authService: AuthService,
@@ -26,15 +27,34 @@ export class SignupComponent implements OnInit {
     this.tempUser = new UserDto;
   }
 
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   onSubmit(form: NgForm){
-    this.error = null;
-    if(form.value.password == form.value.password2){
+    const psw1 = form.value.password;
+    const psw2 = form.value.password2;
+
+    if(psw1 == psw2){
       this.tempUser.username = form.value.username;
       this.tempUser.name = form.value.name;
       this.tempUser.email = form.value.email;
       this.tempUser.password = form.value.password;
       this.signup();
       form.reset();
+    } else {
+
+      this.errormessage = "The passwords did not match!";
+      this.changeerror = true;
+
+      setTimeout(() => {
+        this.changeerror = false;
+        this.errormessage = null;
+        window.location.reload();
+
+      }, 6000);
+
     }
   }
 
@@ -47,7 +67,16 @@ export class SignupComponent implements OnInit {
       error => {
         console.log("Error user");
         console.log(error);
-        this.error = JSON.stringify(error.error);
+
+        this.errormessage = error.error;
+        this.changeerror = true;
+
+        setTimeout(() => {
+          this.changeerror = false;
+          this.errormessage = null;
+          window.location.reload();
+
+        }, 6000);
       }
     );
 

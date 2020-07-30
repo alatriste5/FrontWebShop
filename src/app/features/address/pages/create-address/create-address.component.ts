@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../../../shared/services/auth.service";
 import {concatMap, takeUntil} from "rxjs/operators";
@@ -6,25 +6,26 @@ import {Subject} from "rxjs";
 import {UserDto} from "../../../../shared/models/models/UserDto";
 import {ActivatedRoute, Params, Router} from "@angular/router";
 import {ProductService} from "../../../../shared/services/product.service";
+import {UserService} from "../../../../shared/services/user.service";
 
 @Component({
   selector: 'app-create-address',
   templateUrl: './create-address.component.html',
   styleUrls: ['./create-address.component.scss']
 })
-export class CreateAddressComponent implements OnInit {
+export class CreateAddressComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
   addressForm: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tempUser: UserDto; //Used for update a new user addressid. This is used to know what is the id of the just signed up user
 
-
   changesuccess = false;
   changeerror = false;
 
   constructor(private productService: ProductService,
               private authService: AuthService,
+              private userService: UserService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -52,7 +53,7 @@ export class CreateAddressComponent implements OnInit {
   }
 
   private patchForm() {
-    this.authService.getAddress(this.id).pipe(takeUntil(this.destroy$)).subscribe(
+    this.userService.getAddress(this.id).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
         this.addressForm.patchValue({
           country: res.country,
@@ -94,8 +95,6 @@ export class CreateAddressComponent implements OnInit {
       }),
     ).subscribe(
       res => {
-        //console.log(res)
-        console.log('success');
         localStorage.removeItem("newusername");
       },
       error => {
@@ -105,7 +104,7 @@ export class CreateAddressComponent implements OnInit {
   }
 
   private updateAddress() {
-    this.authService.updateAddress(this.addressForm.value).pipe(takeUntil(this.destroy$)).subscribe(
+    this.userService.updateAddress(this.addressForm.value).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
         this.changesuccess = true;
 
@@ -124,4 +123,11 @@ export class CreateAddressComponent implements OnInit {
       }
     );
   }
-}
+
+  ngOnDestroy() {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+
+  }

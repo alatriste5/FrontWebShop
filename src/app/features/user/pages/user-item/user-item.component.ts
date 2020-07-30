@@ -28,6 +28,10 @@ export class UserItemComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
     {
+      if(this.curractiveUser == null) {
+        this.router.navigate(['auth/login']);
+      }
+
       if(this.curractiveUser.role == "Admin"){
         this.isadmin = true;
       }

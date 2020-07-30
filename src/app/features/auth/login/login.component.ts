@@ -10,7 +10,6 @@ import {UserDto} from "../../../shared/models/models/UserDto";
 })
 export class LoginComponent implements OnInit {
   tempUser: UserDto;
-  //destroy$: Subject<boolean> = new Subject<boolean>();
   error: string = null;
 
   constructor(private authService: AuthService,

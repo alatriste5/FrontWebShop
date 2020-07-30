@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ProductService} from "../../shared/services/product.service";
-import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-home',
@@ -9,7 +7,7 @@ import {Observable} from "rxjs";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private productService: ProductService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

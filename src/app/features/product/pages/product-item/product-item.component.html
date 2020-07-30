@@ -26,33 +26,45 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    Price: {{tempProductDto?.price}} $
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      Price: {{tempProductDto?.price}} $
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      Seller: {{tempUserDto?.username}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      Details: {{tempProductDto?.details}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      Status: {{tempStatus}}
+    </div>
+  </div>
+  <div class="row" *ngIf="tempSoldat" >
+    <div class="col-xs-12">
+      Sold at: {{tempProductDto?.soldat | date: 'd LLLL yyyy'}}
+    </div>
+  </div>
+  <div class="row" *ngIf="tempSoldat" >
+    <div class="col-xs-12">
+      Customer: {{tempCustomerDto?.username}}
+    </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">
-    Seller: {{tempUserDto?.username}}
+
+<div class="container">
+  <div *ngIf="changesuccess" class="snackbar" [ngClass]="{success: changesuccess}">
+    <div>{{successmessage}}</div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    Details: {{tempProductDto?.details}}
-  </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    Status: {{tempStatus}}
-  </div>
-</div>
-<div class="row" *ngIf="tempSoldat" >
-  <div class="col-xs-12">
-    Sold at: {{tempProductDto?.soldat | date: 'd LLLL yyyy'}}
-  </div>
-</div>
-<div class="row" *ngIf="tempSoldat" >
-  <div class="col-xs-12">
-    Customer: {{tempCustomerDto?.username}}
+  <div *ngIf="changeerror" class="snackbar" [ngClass]="{error: changeerror}">
+    <div>Error</div>
+    <div>{{errormessage}}</div>
   </div>
 </div>
