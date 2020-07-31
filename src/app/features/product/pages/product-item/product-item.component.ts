@@ -45,6 +45,7 @@ export class ProductItemComponent implements OnInit, OnDestroy {
     this.productService.getProduct(this.productid).pipe(
       takeUntil(this.destroy$),
       concatMap(res => {
+
         this.tempProductDto = res;
 
         if(this.tempProductDto.sellerid == this.curractiveUser.id ){
@@ -70,6 +71,12 @@ export class ProductItemComponent implements OnInit, OnDestroy {
             },
             error => {
               console.log(error);
+              this.changeerror = true;
+              this.errormessage = error.error;
+              setTimeout(() => {
+                this.changeerror = false;
+                this.errormessage = null;
+              }, 3000);
             }
           );
         }
@@ -79,6 +86,15 @@ export class ProductItemComponent implements OnInit, OnDestroy {
     ).subscribe(
       res2 =>{
         this.tempUserDto = res2;
+      },
+      error => {
+        this.changeerror = true;
+        this.errormessage = error.error;
+        setTimeout(() => {
+          this.changeerror = false;
+          this.errormessage = null;
+        }, 3000);
+
       }
     );
   }

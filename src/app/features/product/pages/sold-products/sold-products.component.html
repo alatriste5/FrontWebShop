@@ -10,3 +10,9 @@
     <p *ngIf="!(currentProductDtoList?.length>0)">No Products</p>
   </div>
 </div>
+<div class="container">
+  <div *ngIf="changeerror" class="snackbar" [ngClass]="{error: changeerror}">
+    <div>Error</div>
+    <div>{{errormessage}}</div>
+  </div>
+</div>

@@ -12,6 +12,8 @@ import {takeUntil} from "rxjs/operators";
 export class SoldProductsComponent implements OnInit, OnDestroy {
   currentProductDtoList: ProductDto[];
   destroy$: Subject<boolean> = new Subject<boolean>();
+  changeerror = false;
+  errormessage = null;
 
   constructor(private productService: ProductService) { }
 
@@ -23,6 +25,13 @@ export class SoldProductsComponent implements OnInit, OnDestroy {
       error => {
         console.log("All products error")
         console.log(error);
+
+        this.changeerror = true;
+        this.errormessage = error.error;
+        setTimeout(() => {
+          this.changeerror = false;
+          this.errormessage = null;
+        }, 3000);
       },
     );
   }

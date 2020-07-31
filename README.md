@@ -1,5 +1,5 @@
 # FrontWebShop
-This is the frontend part of an REST applicaton. Implemented in angular.
+This is the frontend part of an REST applicaton. Implemented in Angular.
 
 Every page except login and sign up is reachable only logged in users. If an unlogged in user want to
 reach this pages directly they will be redirect to log in page.
@@ -17,7 +17,7 @@ reach this pages directly they will be redirect to log in page.
 - Show every details of product
     - If this product belongs to the current user he can modify or delete the product
     - If this product belongs to an another user there is a buy button.
-- See own datas and modify them. 
+- User can see own datas and modify them. 
 - Modify own address datas
 - Every own products lists: Active products, Unvalid products, Already sold products
 - List of own purchases
@@ -27,7 +27,7 @@ reach this pages directly they will be redirect to log in page.
 - Admin can reach every user function.
 - Admin has permission to modify and delete on every products
 - Admin can see the list of unvalid products. They have 2 buttons to: validate or delete it.
-    Every new added product came to this list. The users can only see the product after the validation.
+    Every new product came to this list. The users can only see the product after the validation.
 - List of users
 - Modify user datas. Set user role status to Admin or User.
 

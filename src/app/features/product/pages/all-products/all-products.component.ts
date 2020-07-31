@@ -13,6 +13,9 @@ export class AllProductsComponent implements OnInit, OnDestroy {
   currentProductDtoList: ProductDto[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
+  changeerror = false;
+  errormessage = null;
+
   constructor(private productService: ProductService) { }
 
   ngOnInit(): void {
@@ -23,6 +26,13 @@ export class AllProductsComponent implements OnInit, OnDestroy {
       error => {
         console.log("All products error")
         console.log(error);
+
+        this.changeerror = true;
+        this.errormessage = error.error;
+        setTimeout(() => {
+          this.changeerror = false;
+          this.errormessage = null;
+        }, 3000);
       },
     );
   }
