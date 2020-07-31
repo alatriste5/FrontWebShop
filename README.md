@@ -1,34 +1,35 @@
 # FrontWebShop
-REST applikáció fejlesztése. A webshop nevű java backendhez tartozó frontend oldali rész.
-A frontend Angularban került implementálásra. 
+This is the frontend part of an REST applicaton. Implemented in angular.
 
-Az oldalon a bejelentkezezés és a regisztráláson kívül minden oldal elérése bejelentkezéshez kötött.
-A nem bejelentkezett felhasználót átirányítjuk a bejelentkezési felületre. 
+Every page except login and sign up is reachable only logged in users. If an unlogged in user want to
+reach this pages directly they will be redirect to log in page.
 
-# Funkciók
-- Bejelentkezése
-- Regisztrálás
+# Funcions
 
-## User funkciók
-- Termék listázás
-- Új termék rögzítés
-- Már eladott termékek listázása
-- Termék részleteinek megjelenítése
-    - Saját termék esetén módosítási és törlési funkció
-    - Más terméke esetén vásárlási funkció
-- Felhasználó adatok, és azok módosítása
-- Cím adat módosítása
-- Saját termékek listázása: Actív termékeké, validálásra váró termékeké, eladott termékeké
-- Saját vásárolt termékek listázása
-- Kijelentkezés
+## Public funcitons
+- Login
+- Sign up
 
-## Admin funkciók
-- Minden funkció ami a userek számára is elérhető.
-- Minden termék esetén editálási és törlési lehetőség.
-- Unvalid termékek listázáse és validálási vagy törlési opció. Validálás nélkül az új termékek a Userek számára nem jelennek meg.
-- Userek listázása
-- Userek adatainak módosítása vagy user törlésen
+## User functions
+- List of products
+- Add new products
+- List of sold prodcuts
+- Show every details of product
+    - If this product belongs to the current user he can modify or delete the product
+    - If this product belongs to an another user there is a buy button.
+- See own datas and modify them. 
+- Modify own address datas
+- Every own products lists: Active products, Unvalid products, Already sold products
+- List of own purchases
+- Logout
 
+## Admin functions
+- Admin can reach every user function.
+- Admin has permission to modify and delete on every products
+- Admin can see the list of unvalid products. They have 2 buttons to: validate or delete it.
+    Every new added product came to this list. The users can only see the product after the validation.
+- List of users
+- Modify user datas. Set user role status to Admin or User.
 
 -----------------------------------------------
 # FrontWebShop

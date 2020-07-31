@@ -53,10 +53,11 @@
     </form>
     <div class="container">
       <div *ngIf="changesuccess" class="snackbar" [ngClass]="{success: changesuccess}">
-        <div>Successfully updated</div>
+        <div>{{successmessage}}</div>
       </div>
       <div *ngIf="changeerror" class="snackbar" [ngClass]="{error: changeerror}">
         <div>Update failed</div>
+        <div>{{errormessage}}</div>
       </div>
     </div>
   </div>

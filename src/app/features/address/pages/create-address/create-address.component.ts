@@ -22,6 +22,8 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
 
   changesuccess = false;
   changeerror = false;
+  errormessage = null;
+  successmessage = null;
 
   constructor(private productService: ProductService,
               private authService: AuthService,
@@ -76,7 +78,6 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
     //Create a new address
     if (!this.editMode) {
       this.addAddress();
-      this.router.navigate(['auth','login']);
     }
     //Edit address
     else {
@@ -96,9 +97,27 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
     ).subscribe(
       res => {
         localStorage.removeItem("newusername");
+
+          this.changesuccess = true;
+          this.successmessage = "Successfully created your account";
+
+          setTimeout(() => {
+            this.changesuccess = false;
+            this.successmessage = null;
+            this.router.navigate(['auth','login']);
+          }, 2000);
+
       },
       error => {
         console.log(error);
+
+        this.changeerror = true;
+        this.errormessage = error.error;
+
+        setTimeout(() => {
+          this.changeerror = false;
+          this.errormessage = null;
+        }, 2000);
       }
     );
   }
@@ -107,18 +126,21 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
     this.userService.updateAddress(this.addressForm.value).pipe(takeUntil(this.destroy$)).subscribe(
       res => {
         this.changesuccess = true;
+        this.successmessage = "Successfully updated the address";
 
         setTimeout(() => {
           this.changesuccess = false;
-
+          this.successmessage = null;
         }, 2000);
       },
       error => {
+        console.log(error);
         this.changeerror = true;
+        this.errormessage = error.error;
 
         setTimeout(() => {
           this.changeerror = false;
-
+          this.errormessage = null;
         }, 2000);
       }
     );
