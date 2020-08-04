@@ -35,7 +35,7 @@ export class CreateAddressComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.tempUser = new UserDto;
 
-    this.route.params.subscribe((params: Params) => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
     });

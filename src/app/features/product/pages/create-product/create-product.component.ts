@@ -36,7 +36,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     }
 
 
-    this.route.params.subscribe((params: Params) => {
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.id = +params['id'];
       this.editMode = params['id'] != null;
       this.curractiveUser = JSON.parse(localStorage.getItem("UserData"));
